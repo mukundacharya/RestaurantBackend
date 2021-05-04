@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="restModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="customerInfo">
+    <Key>
+      <PropertyRef Name="customerID" />
+    </Key>
+    <Property Name="customerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="dt" Type="DateTime" Precision="3" />
+    <Property Name="finalAmount" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="orders" Relationship="Self.FK_custID" FromRole="customerInfo" ToRole="orders" />
+  </EntityType>
+  <EntityType Name="login">
+    <Key>
+      <PropertyRef Name="username" />
+    </Key>
+    <Property Name="username" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="designation" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="menu">
+    <Key>
+      <PropertyRef Name="FoodID" />
+    </Key>
+    <Property Name="FoodID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="foodName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="cost" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="isVeg" Type="Boolean" />
+    <Property Name="foodImage" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="isAvailable" Type="Boolean" />
+    <Property Name="foodDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="orders" Relationship="Self.FK_foodID" FromRole="menu" ToRole="orders" />
+  </EntityType>
+  <EntityType Name="order">
+    <Key>
+      <PropertyRef Name="orderID" />
+    </Key>
+    <Property Name="orderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="customerID" Type="Int32" />
+    <Property Name="foodID" Type="Int32" />
+    <Property Name="quantity" Type="Int32" />
+    <Property Name="status" Type="Boolean" />
+    <Property Name="amount" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="customerInfo" Relationship="Self.FK_custID" FromRole="orders" ToRole="customerInfo" />
+    <NavigationProperty Name="menu" Relationship="Self.FK_foodID" FromRole="orders" ToRole="menu" />
+  </EntityType>
+  <Association Name="FK_custID">
+    <End Role="customerInfo" Type="Self.customerInfo" Multiplicity="0..1" />
+    <End Role="orders" Type="Self.order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customerInfo">
+        <PropertyRef Name="customerID" />
+      </Principal>
+      <Dependent Role="orders">
+        <PropertyRef Name="customerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_foodID">
+    <End Role="menu" Type="Self.menu" Multiplicity="0..1" />
+    <End Role="orders" Type="Self.order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="menu">
+        <PropertyRef Name="FoodID" />
+      </Principal>
+      <Dependent Role="orders">
+        <PropertyRef Name="foodID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="restEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="customerInfoes" EntityType="Self.customerInfo" />
+    <EntitySet Name="logins" EntityType="Self.login" />
+    <EntitySet Name="menus" EntityType="Self.menu" />
+    <EntitySet Name="orders" EntityType="Self.order" />
+    <AssociationSet Name="FK_custID" Association="Self.FK_custID">
+      <End Role="customerInfo" EntitySet="customerInfoes" />
+      <End Role="orders" EntitySet="orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_foodID" Association="Self.FK_foodID">
+      <End Role="menu" EntitySet="menus" />
+      <End Role="orders" EntitySet="orders" />
+    </AssociationSet>
+    <FunctionImport Name="getNextSequenceValue" ReturnType="Collection(Int32)" />
+  </EntityContainer>
+</Schema>

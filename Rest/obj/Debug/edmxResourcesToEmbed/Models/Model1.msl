@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="restModelStoreContainer" CdmEntityContainer="restEntities">
+    <EntitySetMapping Name="customerInfoes">
+      <EntityTypeMapping TypeName="restModel.customerInfo">
+        <MappingFragment StoreEntitySet="customerInfo">
+          <ScalarProperty Name="customerID" ColumnName="customerID" />
+          <ScalarProperty Name="dt" ColumnName="dt" />
+          <ScalarProperty Name="finalAmount" ColumnName="finalAmount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="logins">
+      <EntityTypeMapping TypeName="restModel.login">
+        <MappingFragment StoreEntitySet="login">
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="designation" ColumnName="designation" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="menus">
+      <EntityTypeMapping TypeName="restModel.menu">
+        <MappingFragment StoreEntitySet="menu">
+          <ScalarProperty Name="FoodID" ColumnName="FoodID" />
+          <ScalarProperty Name="foodName" ColumnName="foodName" />
+          <ScalarProperty Name="cost" ColumnName="cost" />
+          <ScalarProperty Name="isVeg" ColumnName="isVeg" />
+          <ScalarProperty Name="foodImage" ColumnName="foodImage" />
+          <ScalarProperty Name="isAvailable" ColumnName="isAvailable" />
+          <ScalarProperty Name="foodDescription" ColumnName="foodDescription" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="orders">
+      <EntityTypeMapping TypeName="restModel.order">
+        <MappingFragment StoreEntitySet="orders">
+          <ScalarProperty Name="orderID" ColumnName="orderID" />
+          <ScalarProperty Name="customerID" ColumnName="customerID" />
+          <ScalarProperty Name="foodID" ColumnName="foodID" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="getNextSequenceValue" FunctionName="restModel.Store.getNextSequenceValue" />
+  </EntityContainerMapping>
+</Mapping>
